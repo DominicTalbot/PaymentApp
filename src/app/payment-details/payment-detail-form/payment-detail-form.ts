@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { PaymentDetailsService } from '../../shared/payment-details';
 
@@ -9,12 +9,16 @@ import { PaymentDetailsService } from '../../shared/payment-details';
   templateUrl: './payment-detail-form.html',
 })
 export class PaymentDetailForm {
+  @Output() paymentSubmitted = new EventEmitter<void>();
+
   constructor(public service: PaymentDetailsService) {}
 
   onSubmit(form: NgForm) {
     this.service.postPaymentDetail().subscribe({
       next: (res) => {
         console.log(res);
+        this.service.resetForm(form);
+        this.paymentSubmitted.emit();
       },
       error: (err) => {
         console.log(err);

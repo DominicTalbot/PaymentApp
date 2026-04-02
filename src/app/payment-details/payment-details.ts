@@ -16,6 +16,10 @@ export class PaymentDetails implements OnInit {
   constructor(public service: PaymentDetailsService) {}
 
   ngOnInit(): void {
+    this.refreshList();
+  }
+
+  refreshList(): void {
     this.service.refreshList().subscribe({
       next: (res) => {
         console.log('✅ API response', res);
@@ -24,5 +28,9 @@ export class PaymentDetails implements OnInit {
       },
       error: (err) => console.error('❌ API error', err),
     });
+  }
+
+  onPaymentSubmitted(): void {
+    this.refreshList();
   }
 }
