@@ -1,0 +1,27 @@
+import { Component, OnInit, signal } from '@angular/core';
+import { PaymentDetailsService } from '../shared/payment-details';
+import { PaymentDetailForm } from './payment-detail-form/payment-detail-form';
+import { PaymentDetails as PaymentDetailsModel } from '../shared/payment-detail.model';
+
+@Component({
+  selector: 'app-payment-details',
+  standalone: true,
+  templateUrl: './payment-details.html',
+  imports: [PaymentDetailForm],
+})
+export class PaymentDetails implements OnInit {
+  // reactive state
+  list = signal<PaymentDetailsModel[]>([]);
+
+  constructor(public service: PaymentDetailsService) {}
+
+  ngOnInit(): void {
+    this.service.refreshList().subscribe({
+      next: (res) => {
+        console.log('✅ API response', res);
+        this.list.set(res); // update the signal
+      },
+      error: (err) => console.error('❌ API error', err),
+    });
+  }
+}
