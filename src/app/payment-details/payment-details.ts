@@ -20,6 +20,7 @@ export class PaymentDetails implements OnInit {
       next: (res) => {
         console.log('✅ API response', res);
         this.list.set(res); // update the signal
+        this.service.list = res as PaymentDetailsModel[];
       },
       error: (err) => console.error('❌ API error', err),
     });

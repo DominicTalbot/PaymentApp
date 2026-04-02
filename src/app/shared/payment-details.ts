@@ -10,10 +10,15 @@ import { Observable } from 'rxjs';
 export class PaymentDetailsService {
   url = environment.apiBaseUrl + '/PaymentDetails';
   formData: PaymentDetails = new PaymentDetails();
+  list: PaymentDetails[] = [];
   constructor(private http: HttpClient) {}
 
   // <-- now returns an observable
   refreshList(): Observable<PaymentDetails[]> {
     return this.http.get<PaymentDetails[]>(this.url);
+  }
+
+  postPaymentDetail() {
+    return this.http.post(this.url, this.formData);
   }
 }

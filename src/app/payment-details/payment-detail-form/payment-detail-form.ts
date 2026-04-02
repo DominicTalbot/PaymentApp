@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { PaymentDetailsService } from '../../shared/payment-details';
 
 @Component({
@@ -10,4 +10,15 @@ import { PaymentDetailsService } from '../../shared/payment-details';
 })
 export class PaymentDetailForm {
   constructor(public service: PaymentDetailsService) {}
+
+  onSubmit(form: NgForm) {
+    this.service.postPaymentDetail().subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }
