@@ -12,6 +12,7 @@ export class PaymentDetailsService {
   url = environment.apiBaseUrl + '/PaymentDetails';
   formData: PaymentDetails = new PaymentDetails();
   list: PaymentDetails[] = [];
+  formSubmitted: boolean = false;
   constructor(private http: HttpClient) {}
 
   // <-- now returns an observable
@@ -26,5 +27,6 @@ export class PaymentDetailsService {
   resetForm(form: NgForm) {
     form.form.reset();
     this.formData = new PaymentDetails();
+    this.formSubmitted = false;
   }
 }

@@ -18,16 +18,19 @@ export class PaymentDetailForm {
   ) {}
 
   onSubmit(form: NgForm) {
-    this.service.postPaymentDetail().subscribe({
-      next: (res) => {
-        console.log(res);
-        this.service.resetForm(form);
-        this.paymentSubmitted.emit();
-        this.toastr.success('Inserted successfully', 'Payment Detail Register');
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.service.formSubmitted = true;
+    if (form.valid) {
+      this.service.postPaymentDetail().subscribe({
+        next: (res) => {
+          console.log(res);
+          this.service.resetForm(form);
+          this.paymentSubmitted.emit();
+          this.toastr.success('Inserted successfully', 'Payment Detail Register');
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
   }
 }
