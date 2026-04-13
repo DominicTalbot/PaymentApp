@@ -17,20 +17,46 @@ export class PaymentDetailForm {
     private toastr: ToastrService,
   ) {}
 
+  get isEdit(): boolean {
+    return this.service.formData.paymentDetailId !== 0;
+  }
+
   onSubmit(form: NgForm) {
     this.service.formSubmitted = true;
     if (form.valid) {
-      this.service.postPaymentDetail().subscribe({
-        next: (res) => {
-          console.log(res);
-          this.service.resetForm(form);
-          this.paymentSubmitted.emit();
-          this.toastr.success('Inserted successfully', 'Payment Detail Register');
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+      if (this.service.formData.paymentDetailId === 0) {
+        this.insertRecord(form);
+      } else {
+        this.updateRecord(form);
+      }
     }
+  }
+
+  insertRecord(form: NgForm) {
+    this.service.postPaymentDetail().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.service.resetForm(form);
+        this.paymentSubmitted.emit();
+        this.toastr.success('Inserted successfully', 'Payment Detail Register');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  updateRecord(form: NgForm) {
+    this.service.putPaymentDetail().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.service.resetForm(form);
+        this.paymentSubmitted.emit();
+        this.toastr.info('Updated successfully', 'Payment Detail Register');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

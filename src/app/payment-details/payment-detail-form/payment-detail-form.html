@@ -6,22 +6,30 @@
   autocomplete="off"
 >
   <input type="hidden" name="paymentDetailId" [value]="service.formData.paymentDetailId" />
-  <div class="mb-3">
-    <label>Card Owner Name</label>
+
+  <div class="form-group mb-4">
+    <label class="form-label fw-semibold text-dark">
+      <i class="fas fa-user me-2 text-primary"></i>
+      Card Owner Name
+    </label>
     <input
-      class="form-control form-control-lg"
-      placeholder="Name on Card"
+      class="form-control form-control-lg modern-input"
+      placeholder="Enter name on card"
       #cardHolderName="ngModel"
       name="cardHolderName"
       [(ngModel)]="service.formData.cardHolderName"
       required
     />
   </div>
-  <div class="mb-3">
-    <label>Card Number</label>
+
+  <div class="form-group mb-4">
+    <label class="form-label fw-semibold text-dark">
+      <i class="fas fa-credit-card me-2 text-primary"></i>
+      Card Number
+    </label>
     <input
-      class="form-control form-control-lg"
-      placeholder="16 Digit Card Number"
+      class="form-control form-control-lg modern-input"
+      placeholder="1234 5678 9012 3456"
       #cardNumber="ngModel"
       name="cardNumber"
       [(ngModel)]="service.formData.cardNumber"
@@ -32,10 +40,13 @@
   </div>
 
   <div class="row">
-    <div class="mb-3 col-6">
-      <label>Security Code</label>
+    <div class="col-md-6 mb-4">
+      <label class="form-label fw-semibold text-dark">
+        <i class="fas fa-lock me-2 text-primary"></i>
+        Security Code
+      </label>
       <input
-        class="form-control form-control-lg"
+        class="form-control form-control-lg modern-input"
         placeholder="CVV"
         type="password"
         #securityCode="ngModel"
@@ -46,10 +57,13 @@
         maxlength="3"
       />
     </div>
-    <div class="mb-3 col-6">
-      <label>Valid Through</label>
+    <div class="col-md-6 mb-4">
+      <label class="form-label fw-semibold text-dark">
+        <i class="fas fa-calendar me-2 text-primary"></i>
+        Valid Through
+      </label>
       <input
-        class="form-control form-control-lg"
+        class="form-control form-control-lg modern-input"
         placeholder="MM/YY"
         #expirationDate="ngModel"
         name="expirationDate"
@@ -60,7 +74,21 @@
       />
     </div>
   </div>
-  <div class="d-grid">
-    <button class="btn btn-lg btn-success" type="submit">Submit</button>
+
+  <div class="d-grid gap-2 mt-4">
+    <button class="btn btn-lg modern-btn" type="submit">
+      <i class="fas fa-{{ isEdit ? 'save' : 'plus' }} me-2"></i>
+      {{ isEdit ? 'Update Payment' : 'Add Payment' }}
+    </button>
+    @if (isEdit) {
+      <button
+        class="btn btn-outline-secondary btn-lg"
+        type="button"
+        (click)="service.resetForm(form)"
+      >
+        <i class="fas fa-times me-2"></i>
+        Cancel
+      </button>
+    }
   </div>
 </form>

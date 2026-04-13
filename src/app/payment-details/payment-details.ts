@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { PaymentDetailsService } from '../shared/payment-details';
 import { PaymentDetailForm } from './payment-detail-form/payment-detail-form';
 import { PaymentDetails as PaymentDetailsModel } from '../shared/payment-detail.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-payment-details',
@@ -13,7 +14,10 @@ export class PaymentDetails implements OnInit {
   // reactive state
   list = signal<PaymentDetailsModel[]>([]);
 
-  constructor(public service: PaymentDetailsService) {}
+  constructor(
+    public service: PaymentDetailsService,
+    private toastr: ToastrService,
+  ) {}
 
   ngOnInit(): void {
     this.refreshList();
@@ -32,5 +36,24 @@ export class PaymentDetails implements OnInit {
 
   onPaymentSubmitted(): void {
     this.refreshList();
+  }
+
+  populateForm(selectedRecord: PaymentDetailsModel): void {
+    this.service.formData = { ...selectedRecord };
+  }
+
+  onDelete(id: number): void {
+    if (confirm('Are you sure to delete this record?')) {
+      this.service.deletePaymentDetail(id).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.refreshList();
+          this.toastr.error('Deleted successfully', 'Payment Detail Register');
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
   }
 }

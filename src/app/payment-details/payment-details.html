@@ -1,28 +1,100 @@
-<div class="bg-body-secondary text-center py-5 rounded-2">
-  <h1 class="display-6 fw-bold">Payment Detail Register</h1>
+<!-- Header with Branding -->
+<header class="brand-header text-center py-4 mb-5">
+  <div class="container">
+    <h1 class="brand-title display-4 fw-bold text-white mb-2">Talbot Design Co.</h1>
+    <p class="brand-subtitle text-light mb-0">Payment Management System</p>
+    <div class="brand-accent"></div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <!-- Form Section -->
+    <div class="col-lg-5 mb-4">
+      <div class="form-card card shadow-lg border-0">
+        <div class="card-header bg-primary text-white text-center py-3">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-credit-card me-2"></i>
+            {{ service.formData.paymentDetailId ? 'Edit Payment Details' : 'Add Payment Details' }}
+          </h3>
+        </div>
+        <div class="card-body p-4">
+          <app-payment-detail-form
+            (paymentSubmitted)="onPaymentSubmitted()"
+          ></app-payment-detail-form>
+        </div>
+      </div>
+    </div>
+
+    <!-- List Section -->
+    <div class="col-lg-7">
+      <div class="list-card card shadow-lg border-0">
+        <div class="card-header bg-success text-white text-center py-3">
+          <h3 class="card-title mb-0">
+            <i class="fas fa-list me-2"></i>
+            Payment Details List
+          </h3>
+        </div>
+        <div class="card-body p-4">
+          @if (list().length === 0) {
+            <div class="text-center py-5 text-muted">
+              <i class="fas fa-inbox fa-3x mb-3"></i>
+              <p class="mb-0">No payment details added yet.</p>
+              <small>Add your first payment method to get started.</small>
+            </div>
+          } @else {
+            <div class="payment-list">
+              @for (pd of list(); track pd.paymentDetailId) {
+                <div class="payment-item card mb-3 border-0 shadow-sm">
+                  <div class="card-body d-flex justify-content-between align-items-center p-3">
+                    <div class="payment-info flex-grow-1" (click)="populateForm(pd)">
+                      <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-credit-card text-primary me-2"></i>
+                        <span class="fw-bold text-dark">{{ pd.cardHolderName }}</span>
+                      </div>
+                      <div class="card-details text-muted small">
+                        <span class="me-3">
+                          <i class="fas fa-hashtag me-1"></i>
+                          **** **** **** {{ pd.cardNumber.slice(-4) }}
+                        </span>
+                        <span>
+                          <i class="fas fa-calendar me-1"></i>
+                          {{ pd.expirationDate }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="action-buttons">
+                      <button
+                        class="btn btn-sm btn-outline-primary me-2"
+                        (click)="populateForm(pd)"
+                        title="Edit"
+                      >
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button
+                        class="btn btn-sm btn-outline-danger"
+                        (click)="onDelete(pd.paymentDetailId)"
+                        title="Delete"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="row mt-5">
-  <div class="col-6">
-    <app-payment-detail-form (paymentSubmitted)="onPaymentSubmitted()"></app-payment-detail-form>
+<!-- Footer -->
+<footer class="brand-footer text-center py-3 mt-5">
+  <div class="container">
+    <p class="mb-0 text-muted">
+      <small>&copy; 2026 Talbot Design Co. All rights reserved.</small>
+    </p>
   </div>
-
-  <div class="col-6">
-    <ul class="list-group">
-      @for (pd of list(); track pd.paymentDetailId) {
-        <li
-          class="list-group-item d-flex flex-wrap justify-content-between align-items-center mb-2 border px-4 py-3 rounded-3"
-        >
-          <div class="flex-grow-1 mouse-hover">
-            <div class="fw-bold">{{ pd.cardHolderName }}</div>
-            <div>{{ pd.cardNumber }}</div>
-            <div class="fw-bold">{{ pd.expirationDate }}</div>
-          </div>
-          <span class="text-secondary">
-            <i class="fa-solid fa-trash-can fa-lg mouse-hover"></i>
-          </span>
-        </li>
-      }
-    </ul>
-  </div>
-</div>
+</footer>
