@@ -4,6 +4,9 @@ Hey there! 👋 This is a simple payment management system I built while learnin
 
 ## What I Built
 
+<img width="1585" height="773" alt="image" src="https://github.com/user-attachments/assets/111576f5-fe64-42f9-bf6b-34d6df5043fd" />
+
+
 A clean, modern web app with:
 
 - **Add payments**: Form to enter new payment methods
